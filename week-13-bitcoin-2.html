@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BIS4630 Corporate Compliance &amp; Fraud Analytics</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Hayson Tse, PhD (HK)" />
+    <meta name="date" content="2018-01-31" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# BIS4630 Corporate Compliance &amp; Fraud Analytics
+## Week 13 (Bitcoin) Cybercrime &amp; Information Security (Supplementary Materials)
+### Hayson Tse, PhD (HK)
+### 31 January 2018
+
+---
+
+
+
+
+
+# Help
+
+* Pink means `I am a link; please click me.`  
+
+* Click a slide and press `H` for help  
+
+???
+
+This is notes.
+
+---
+# Contact info
+
+* Personal email
+
+    + [H.Tse](H.Tse@mdx.ac.uk)  
+
+    + [hayson.tse](hayson.tse@teacher.hkuspace.hku.hk)  
+
+* Course twitter
+
+    + [@bis4630](https://twitter.com/bis4630)  
+
+---
+
+# Copyright
+
+[This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Licence.](http://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
+
+&lt;img src="images-bitcoin/by-nc-sa.png" height="100pt" /&gt;
+---
+
+# References
+
+* Neilson, Hara and Mitchell. [Bitcoin Forensics: a Tutorial](http://bit.ly/2EmdyzC). In: 11th International Conference on Global Security, Safety &amp; Sustainability (ICGS3-17), 18-20 Jan 2017, Greenwich, London, England.
+
+* John Bohannon. Why Criminal Cannot Hide Behind Bitcoin. Science Magazine. 9 March 2016.
+
+* Wild, Arnold and Stafford. [Technology: Banks Seek the Key to Blockchain](http://on.ft.com/2iL4sTB). Financial Times. 2 November 2015.
+
+* Koshy, Koshy and McDaniel. [An Analysis of Anonymity in Bitcoin Using P2P Network Traffic](http://bit.ly/2GuheQv). Financial Cryptography and Data Security 2014, pp. 469 - 485.
+
+* Reid and Harrigan. [An Analysis of Anonymity in the Bitcoin System](http://bit.ly/2FrDqtc). arXiv:1107.4524, 22 July 2012.
+
+* Tu and Yu. [Research on Anonymization and De-anonymization in the Bitcoin System](http://bit.ly/2DWeD3l). arXiv:1510.07782, 27 October 2015.
+
+---
+
+# References
+
+* Michael del Castillo. [To Catch a Ransomer: How the FBI Chases Crime on the Blockchain](http://bit.ly/2rRQo1l). Coindesk, 1 February 2017.
+
+* Haber, Stornetta and Bellcore. [How to Time-stamp a Digital Document](http://bit.ly/2nl37VX). Journal of Crypotology, 1991 3(2), pp. 99 - 111.
+
+* Narayanan, et al. Bitcoin and Cryptocurrency Technologies. Princeton University Press, 2016.
+
+---
+
+# Totally anonymous?
+
+* Then, how FBI identified Ross Ulbricht and arrested him?
+
+&gt; “Ross Ulbricht, the 31-year-old American who created Silk Road, a Bitcoin market facilitating the sale of $1 billion in illegal drugs, was sentenced to life in prison in February 2015.”
+
+---
+
+# History
+
+* A blockchain is a chain of blocks that contains information.  This technique was originally described in a paper [How to Time-Stamp a Digital Document](http://bit.ly/2nl37VX) in 1991 by Haber, Stornetta and Bellcore. It was originally intended to timestamp digital documents so that it’s not possible to backdate them or to tamper with them.  It was adapted by Satoshi Nakamoto in 2009 in his paper [Bitcoin: a Peer-to-peer Electronic Cash System](http://bit.ly/LjkXCv) to create the digital cryptocurrency Bitcoin.
+
+---
+
+# Neilson, Hara and Mitchell
+
+&gt; “Bitcoin is a decentralized cryptocurrency and payment network that allows for transactions to be conducted peer-to-peer amongst its users.”
+
+&gt; “It has the potential to be used for money laundering and tax avoidance, and has been used extensively to purchase illicit goods and services through online marketplaces such as Silk Road. It is also used as the method of payment for ransomware attacks which have witnessed huge growth during this time.”
+
+&gt; “Bitcoin is a distributed payment network that is built on the foundation of a number of key technologies; public key cryptography, p2p networks, cryptographic hash algorithms. These combine to produce a payment system that requires no central authority to validate transactions conducted amongst its peers. Fundamental to this system is a data structure called the blockchain, which is essentially a database containing every transaction that has ever taken place in this payment network.”
+
+---
+
+# Neilson, Hara and Mitchell
+
+&gt; “Transactions are broadcast as messages to the network and propagated peer-to-peer, containing no IP address data that would indicate where the transaction originated from. In counter to this, every transaction and its associated addresses are permanently recorded in the blockchain and viewable to anyone who has a copy. Each and every transaction is chained together, allowing for the path that funds take to be traced back to the first transaction. For these reasons Bitcoin is said to be pseudonymous rather than anonymous. ”
+
+---
+
+# Narayanan, et al.
+
+* What is meant by anonymous or anonymity?
+
+    + Literally: anonymous = without a name
+
+    + Bitcoin addresses are public key hashes rather than real identities
+
+    + Computer scientists call this pseudonymity.
+
+
+---
+
+# Narayanan, et al.
+
+*  Anonymity in computer science
+
+    + Anonymity = pseudonymity + unlinkability
+
+    + i.e. Different interactions of the same user with the system should not be linkable to each other.
+
+---
+
+# Narayanan, et al.
+
+* Defining unlinkability in Bitcoin
+
+    + Hard to link different bitcoin addresses of the same user to the user
+
+    + Hard to link different transactions of the same user to the user
+
+    + Hard to link sender of a payment to its recipient
+
+---
+
+# Narayanan, et al.
+
+* Bitcoin depends on miners to:
+
+    + Store and broadcast the block chain
+
+    + Validate new transactions
+
+    + Vote (by hash power) on consensus
+
+---
+
+# Narayanan, et al.
+
+* 6 Steps
+
+	+ Join the network, listen for transactions
+
+          + Validate all proposed transactions
+
+	+ Listen for new blocks, maintain block chain
+
+          + When a new block is proposed, validate it
+
+	+ Assemble a new valid block
+
+	+ Find the nonce to make your block valid
+
+	+ Wait everybody accepts your new block
+
+	+ Get the reward
+
+
+---
+
+# Antonopoulos
+
+* Introduction
+
+&gt; “Bitcoin was invented in 2008 by Satoshi Nakamoto with the publication of a paper titled “Bitcoin: A Peer-to-Peer Electronic Cash System”. Satoshi Nakamoto combined several prior inventions such as b-money and HashCash to create a completely de-centralized electronic cash system that does not rely on a central authority for currency issuance or settlement and validation of transactions. The key innovation was to use a distributed computation system (called a “Proof-Of-Work” algorithm) to conduct a global “election” every 10 minutes, allowing the de-centralized network to arrive at consensus about the state of transactions. This elegantly solves the issue of double-spend where a single currency unit can be spent twice.”
+
+---
+
+# Antonopoulos
+
+* Bitcoin consists of:
+
+    + A de-centralized peer-to-peer network (the bitcoin protocol);
+
+    + A public transaction ledger (the blockchain);
+
+    + A de-centralized mathematical and deterministic currency issuance (distributed mining), and;
+
+    + A de-centralized transaction verification system (transaction script).
+
+---
+
+# Cyrptocurrencies
+
+* 6 Cryptocurrencies other than Bitcoin amonst many others
+
+ + Litecoin
+
+ + Ethereum
+
+ + Zcash
+
+ + Dash
+
+ + Ripple
+
+ + Monero
+
+---
+
+# Antonopoulos
+
+* Install Bitcoin Clients
+
+&gt; “Alice . . . starts her journey by visiting the official website bitcoin.org, where she finds a broad selection of bitcoin clients. Following the advice on the bitcoin.org site, she chooses the lightweight bitcoin client Multibit. Alice follows a link from the bitcoin.org site to download and install Multibit on her desktop.”
+
+&gt; “. . . she runs it and is greeted by a “welcome” screen:” (Figure 1-1)
+
+
+---
+
+# Antonopoulos
+
+* Figure 1-1 The Multibit Bitcoin Client Welcome Screen
+
+
+&lt;img src="images-bitcoin/figure-1-1.png" height="450pt" /&gt;
+---
+
+# Antonopoulos
+
+* Wallet
+
+&gt; “Multibit automatically creates a wallet and a new bitcoin address for Alice, which Alice can see by clicking on the “Request” tab:” (Figure 1-2)
+
+---
+
+# Antonopoulos
+
+* Figure 1-2 Alice’s new bitcoin address, in the “Request” tab of the Multibit client
+
+&lt;img src="images-bitcoin/figure-1-2.png" height="450pt" /&gt;
+---
+
+# Antonopoulos
+
+* Bitcoin address
+
+&gt; “The most important part of this screen is Alice’s bitcoin address. Like an email address, Alice can share this address and anyone can use it to send money directly to her new wallet. On the screen it appears as a long string of letters and numbers: 1Cdid9KFAaatwczBwBttQcwXYCpvK8h7FK. Next to the wallet’s bitcoin address, there is a QR code, a form of barcode that contains the same information in a format that can be easily scanned by a smartphone’s camera. The QR code is the black and white square on the right side of the window. Alice can copy the bitcoin address or the QR code onto her clipboard by clicking on the copy button adjacent to each of them.”
+
+---
+
+# Antonopoulos
+
+* Getting your first bitcoins
+
+&gt; “There are a number of specialized currency exchanges where you can buy and sell bitcoin in exchange for a local currency. These operate as web-based currency markets and include:”
+
+&gt; “Bitstamp (bitstamp.net), a European currency market that supports several currencies including euros (EUR) and US dollars (USD) via wire transfer”
+
+&gt; “Coinbase (coinbase.com), a US-based bitcoin wallet and platform where merchants and consumers can transact in bitcoin. Coinbase makes it easy to buy and sell bitcoin, allowing users to connect to US checking accounts via the ACH system.”
+
+---
+
+# Antonopoulos
+
+* There are other methods for getting bitcoins as a new user:
+
+    + Find a friend who has bitcoins and buy some from them directly. Many bitcoin users started this way.
+
+    + Use a classified service like localbitcoins.com to find a seller in your area to buy bitcoins for cash in an in-person transaction.
+
+    + Sell a product or service for bitcoin. If you’re a programmer, sell your programming skills. If you have an online store, see (to come) to sell in bitcoin.
+
+    + Use a bitcoin ATM in your city. A map of bitcoin ATMs can be found at http:// www.coindesk.com/bitcoin-atm-map/
+
+    + (become a miner)
+
+
+---
+
+# Antonopoulos
+
+* Getting your first bitcoins
+
+&gt; “Alice meets her friend Joe . . . She gives Joe a $10 bill and the printout of her address so that Joe can send her the equivalent amount of bitcoin. . . .Next, Joe has to figure out the exchange rate so that he can give the correct amount of bitcoin to Alice.”
+
+
+---
+
+# Antonopoulos
+
+* There are hundreds of applications and web sites that can provide the current market rate, here are some of the most popular:
+
+    + bitcoincharts.com, a market data listing service that shows the market rate of bitcoin across many exchanges around the globe, denominated in different local currencies
+
+    + bitcoinaverage.com, a site that provides a simple view of the volume-weighted- average for each currency
+
+    + ZeroBlock, a free Android and iOS application that can display a bitcoin price from different exchanges
+
+    + bitcoinwisdom.com, another market data listing service
+
+---
+
+# Antonopoulos
+
+* Joe got the exchange rate
+
+&gt; “Using one of the applications or websites above, Joe determines the price of bitcoin to be approximately $100 US dollars per bitcoin. At that rate he should give Alice 0.10 bitcoin, also known as 100 milliBits, in return for the $10 US dollars she gave him.”
+
+---
+
+# Antonopoulos
+
+
+* Joe sent 0.10 bitcoin to Alice (Figure 1-4)
+
+&gt; “Once Joe has established a fair exchange price, he opens his mobile wallet application and selects to “send” bitcoin. He is presented with a screen requesting two inputs:”
+
+&gt; “The destination bitcoin address for the transaction”
+
+&gt; “The amount of bitcoin to send”
+
+
+---
+
+# Antonopoulos
+
+* Figure 1-4 Bitcoin mobile wallet - Sent Bitcoin screen
+
+&lt;img src="images-bitcoin/figure-1-4.png" height="400pt" /&gt;
+
+---
+
+# Antonopoulos
+
+
+* Joe sent to Alice
+
+
+&gt; “In the input field for the bitcoin address, there is a small icon that looks like a QR code. This allows Joe to scan the barcode with his smartphone camera so that he doesn’t have to type in Alice’s bitcoin address (1Cdid9KFAaatwczBwBttQcwXYCpvK8h7FK), which is quite long and difficult to type.”
+
+&gt; “Joe then enters the bitcoin value for the transaction, 0.10 bitcoin. . . .”
+
+
+---
+
+# Antonopoulos
+
+
+* Tell the well-connected nodes in the network
+
+&gt; “Finally, he presses “Send” to transmit the transaction. Joe’s mobile bitcoin wallet constructs a transaction that assigns 0.10 bitcoin to the address provided by Alice, sourcing the funds from Joe’s wallet and signing the transaction with Joe’s private keys. This tells the bitcoin network that Joe has authorized a transfer of value from one of his addresses to Alice’s new address. As the transaction is transmitted via the peer-to-peer protocol, it quickly propagates across the bitcoin network. In less than a second, most of the well-connected nodes in the network receive the transaction and see Alice’s address for the first time.”
+
+
+---
+
+# Antonopoulos
+
+
+* Alice can check
+
+&gt; “If Alice has a smartphone or laptop with her, she will also be able to see the transaction. The bitcoin ledger - a constantly growing file that records every bitcoin transaction that has ever occurred - is public, meaning that all she has to do is look up her own address and see if any funds have been sent to it. She can do this quite easily at the blockchain.info website by entering her address in the search box. The website will show her a page (https://blockchain.info/address/1Cdid9KFAaatwczBwBttQcwXYCpvK8h7FK) listing all the transactions to and from that address. If Alice is watching that page, it will update to show a new transaction transferring 0.10 bitcoin to her balance soon after Joe hits “Send”.”
+
+---
+
+# Antonopoulos
+
+* Confirmations
+
+&gt; “At first, Alice’s address will show the transaction from Joe as “Unconfirmed”. This means that the transaction has been propagated to the network but has not yet been included in the bitcoin transaction ledger, known as the blockchain. To be included, the transaction must be “picked up” by a miner and included in a block of transactions. Once a new block is created, in approximately 10 minutes, the transactions within the block will be accepted as “confirmed” by the network and can be spent. The transaction is seen by all instantly, but it is only “trusted” by all when it is included in a newly mined block.”
+
+
+---
+
+# Antonopoulos
+
+* What Alice used is called a Blockchain explorer
+
+&gt; “While tracking a transaction through the bitcoin network and blockchain, we will use a blockchain explorer site to visualize each step. A blockchain explorer is a web application that operates as a bitcoin search engine, in that it allows you to search for addresses, transactions and blocks and see the relationships and flows between them.”
+
+---
+
+# Antonopoulos
+
+* Popular blockchain explorers include:
+
+    + blockchain.info
+
+    + blockexplorer.com
+
+    + insight.bitpay.com
+
+    + blockr.io
+
+&gt; “Each of these has a search function that can take an address, transaction hash or block number and find the equivalent data on the bitcoin network and blockchain. ”
+
+---
+
+# Antonopoulos
+
+* Alice buys a cup of coffee
+
+&gt; “The transaction created by Joe, funded Alice’s wallet with 0.10 BTC. Now Alice will make her first retail transaction, buying a cup of coffee at Bob’s coffee shop . . . Alice places her order for a cup of coffee and Bob enters the transaction at the register. The point-of-sale system will convert the total price from US dollars to bitcoins at the prevailing market rate and display the prices in both currencies, as well as showing a QR code containing a payment request for this transaction:”
+
+
+---
+
+# Antonopoulos
+
+* Bob's cash register display:
+
+&gt; Total:  
+$1.50 USD  
+0.015 BTC
+
+&lt;img src="images-bitcoin/Fig 2-2.png" height="300pt" /&gt;
+
+---
+
+# Antonopoulos
+
+* The payment request QR code above encodes the following URL
+
+&gt; bitcoin:1GdK9UzpHBzqzX2A9JFP3Di4weBwqgmoQA?\  
+amount=0.015&amp;\  
+label=Bob%27s%20Cafe&amp;\  
+message=Purchase%20at%20Bob%27s%20Cafe  
+
+
+---
+
+# Antonopoulos
+
+* Components of the URL
+
+&gt; A bitcoin address: "1GdK9UzpHBzqzX2A9JFP3Di4weBwqgmoQA"  
+The payment amount: "0.015"  
+A label for the recipient address: "Bob's Cafe"  
+A description for the payment: "Purchase at Bob's Cafe"  
+
+---
+
+# Antonopoulos
+
+* Alice pays for the coffee
+
+&gt; “Alice uses her smartphone to scan the barcode on display. Her smartphone shows a payment of 0.0150 BTC to Bob’s Cafe and she selects Send to authorize the payment. Within a few seconds (about the same time as a credit card authorization), Bob would see the transaction on the register, completing the transaction.”
+
+
+---
+
+# Antonopoulos
+
+* The blockchain of transfer of value from Alice to Bob
+
+&gt; “Alice’s payment to Bob’s Cafe utilizes a previous transaction as its input. In the previous chapter Alice received bitcoin from her friend Joe in return for cash. That transaction has a number of bitcoins locked (encumbered) against Alice’s key. Her new transaction to Bob’s Cafe references the previous transaction as an input and creates new outputs to pay for the cup of coffee and receive change. The transactions form a chain, where the inputs from the latest transaction correspond to outputs from previous transactions. Alice’s key provides the signature which unlocks those previous transaction outputs, thereby proving to the bitcoin network that she owns the funds. She attaches the pay‐ ment for coffee to Bob’s address, thereby “encumbering” that output with the require‐ ment that Bob produces a signature in order to spend that amount. This represents a transfer of value between Alice and Bob.”
+
+---
+
+# Antonopoulos
+
+
+* Figure 2-4. A chain of transactions, where the output of one transaction is the input of the next transaction
+
+&lt;img src="images-bitcoin/Fig 2-4.png" height="400pt" /&gt;
+
+---
+
+# Antonopoulos
+
+* Figure 2-4
+
+    + Note Alice pays 0.1 BTC to Bob for the coffee. The coffee only costs 0.015 BTC. Alice cannot divide the 0.1 BTC.
+
+    + Since Alice pays 0.1 BTC, Bob will give her back the change (the balance), less the transaction fees (this fee is charged by the P2P network to be paid to a miner).
+
+    + Note 0.0845 BTC is sent back to Alice's bitcoin address known to Bob when Alice sends 0.1 BTC to Bob.
+
+    + Note the third example of Bob pays Gopesh.
+
+    + Note all bitcoin addresses are in the public view.
+
+    + (Investigators wish to link the bitcoin address to Alice. How?)
+
+---
+
+# Antonopoulos
+
+
+* Figure 2-8 Alice's transaction to Bob's Cafe
+
+&lt;img src="images-bitcoin/Fig 2-8.png" height="400pt" /&gt;
+
+---
+
+# Antonopoulos
+
+
+* Figure 2-8 Alice's transaction to Bob's Cafe
+
+    + Note also that the unspent 0.0845 BTC is sent back to Alice's bitcoin address
+
+    + Note the 97 confirmations (verifications) (validations)
+
+---
+
+# Koshy, Koshy &amp; McDaniel
+
+* This is a different Alice example
+
+&gt; “For example, if Alice wants to receive 50 bitcoins (BTC) from Bob, she creates an asymmetric key-pair and gives him her public key, `\(A^{+}\)`. Bob creates a transaction and encodes Alice’s public key as the recipient of his coins within one of the transaction’s outputs (Figure 1, Transaction 1). The next day, Alice wants to send 20 BTC to Charlie. She creates a new transaction and claims the money she received from Bob by referencing it in one of the transaction’s inputs (Figure 1, Transaction 2). An important caveat of the Bitcoin protocol is that the amount of bitcoins claimed in an input cannot be specified. In order for Alice to only send 20 BTC to Charlie, she has to create an extra output to send 30 BTC in change back to herself (Transaction 2, Output 1). She can then reference this change in later transactions. After specifying all her outputs, Alice signs the new transaction with her private key `\(A^{-}\)` and includes this signature within the corresponding input. In this way, ownership of the referenced coins can later be verified and the transaction’s integrity is protected.”
+
+---
+
+# Koshy, Koshy &amp; McDaniel
+
+* This is a different Alice example
+
+* Fig. 1
+
+&lt;img src="images-bitcoin/bitcoin-address-1.png" height="400pt" /&gt;
+
+---
+
+# Koshy, Koshy &amp; McDaniel
+
+* This is a different Alice example
+
+* Fig. 1
+
+&gt; “This figure demonstrates how Alice, who owns Bitcoin address A, would create a new transaction (Transaction 2) which spends bitcoins received earlier (Transaction 1). Note that the Bitcoin address of the input must match the Bitcoin address of the referenced output. Note also that the sender of the transaction must sign it with her private key (denoted in this diagram with the superscript `\(^{-}\)`). We caution that this is a simplified representation of the internals of a transaction.”
+
+
+
+---
+
+# Antonopoulos
+
+* Going back to the example of Alice buying a cup of coffee from Bob
+
+&gt; “The transaction (Alice pays Bob) is now propagated on the bitcoin network. It does not become part of the shared ledger (the blockchain) until it is verified and included in a block by a process called mining.”
+
+&gt; “. . . Transactions are bundled into blocks, which require an enormous amount of computation to prove, but only a small amount of computation to verify as proven. This process is called mining . . . ”
+
+
+&gt; “Miners validate new transactions and record them on the global ledger. . . .Transactions that become part of a block and added to the blockchain are considered “confirmed”, which allows the new owners of bitcoin to spend the bitcoin they received in those transactions.”
+
+---
+
+# Antonopoulos
+
+* Miners
+
+&gt; “Miners receive two types of reward for mining: new coins created with each new block and transaction fees from all the transactions included in the block. To earn this reward, the miners compete to solve a difficult mathematical problem based on a cryptographic hash algorithm. The solution to the problem, called the Proof-of-Work, is included in the new block and acts as proof that the miner expended significant computing effort. The competition to solve the Proof-of-Work algorithm to earn reward and the right to record transactions on the blockchain is the basis for bitcoin’s security model.”
+
+---
+
+# Antonopoulos
+
+* Miners
+
+&gt; “Bitcoin miners also earn fees from transactions. Every transaction may include a transaction fee, in the form of a surplus of bitcoin between the transaction’s inputs and out‐ puts. The winning bitcoin miner gets to “keep the change” on the transactions included in the winning block.”
+
+&gt; “The process of new coin generation is called mining, because the reward is designed to simulate diminishing returns, just like mining for precious metals.”
+
+&gt; “. . . before forwarding transactions to its neighbors, every bitcoin node that receives a transaction will first verify the transaction. This ensures that only valid trans‐ actions are propagated across the network, while invalid transactions are discarded at the first node that encounters them.”
+
+---
+
+
+# Antonopoulos
+
+* Miners
+
+&gt; “Each node verifies every transaction against a long checklist of criteria: . . . . (at least 18 criteria) . . . ”
+
+&gt; “Some of the nodes on the bitcoin network are specialized nodes called miners.”
+
+---
+
+
+# A very brief summary of a work of a miner
+
+* A miner has a copy of a blockchain. A blockchain consists of all blocks created since bitcoin system was set up in 2009.
+
+* A miner waits a new transaction to show up.
+
+* When he gets a new transaction, he validates it (checking it against a long list of criteria); otherwise it is rejected. After validation, he propagates (pass) it to his peers in the network.
+
+* After validation, he also added the validated transaction to his transaction pool. This validated transaction is called unconfirmed transaction (because it has not yet been included in a block). (A block is a list of transaction regarding a bitcoin).
+
+* The transaction pool consists of some validated transactions to be added to a block (that can be found by the miner).
+
+---
+
+# A very brief summary of a work of a miner
+
+* When a block arrives, he validates it (checking it against a long list of criteria), otherwise it is rejected. After validation, he propagates (pass) it to his peers in the network. He also adds it to the existing blockchain.
+
+* He also removes transactions in the transaction pool that are included in the block newly arrived.
+
+* He creates a candidate block (aggregating transactions into blocks). This candidate block consists of some transactions in his transaction pool. In summary, he wants to prove that this candidate block consists of the history of some transactions of a certain bitcoin from the transaction pool. This process is called proof of work (mining a block).
+
+* If he is successful (he finds a valid block containing a valid proof-of-work), he is rewarded a certain amount of bitcoin by the system. This candidate block is released to the peer.
+
+---
+
+
+# Antonopoulos
+
+* Miners
+
+&gt; “Let’s follow the blocks that were created during the time Alice bought a cup of coffee from Bob’s Cafe (see “Buying a cup of coffee” on page 16). Alice’s transaction was in‐ cluded in block 277,316. For the purpose of demonstrating the concepts in this chapter let’s assume that block was mined by Jing’s mining system and follow Alice’s transaction as it becomes part of this new block.”
+
+---
+
+
+# Antonopoulos
+
+* Miners
+
+&gt; “Jing’s mining node maintains a local copy of the blockchain, the list of all blocks created since the beginning of the bitcoin system in 2009. By the time Alice buys the cup of coffee, Jing’s node has assembled a chain up to block 277,314. Jing’s node is listening for transactions, trying to mine a new block and also listening for blocks discovered by other nodes. As Jing’s node is mining, it receives block 277,315 through the bitcoin network. The arrival of this block signifies the end of the competition for block 277,315 and the beginning of the competition to create block 277,316.”
+
+---
+
+
+# Antonopoulos
+
+* Miners
+
+&gt; “During the previous 10 minutes, while Jing’s node was searching for a solution to block 277,315, it was also collecting transactions in preparation for the next block. By now it has collected a few hundred transactions in the memory pool. Upon receiving block 277,315 and validating it, Jing’s node will also check all the transactions in the memory pool and remove any that were included in block 277,315. Whatever transaction remain in the memory pool are unconfirmed and are waiting to be recorded in a new block.”
+
+---
+
+
+# Antonopoulos
+
+* Miners
+
+
+&gt; “Jing’s node immediately constructs a new empty block, a candidate for block 277,316. This block is called a candidate block because it is not yet a valid block, as it does not contain a valid proof-of-work. The block becomes valid only if the miner succeeds in finding a solution to the Proof-of-Work algorithm.”
+
+
+&gt; “To construct the candidate block Jing’s bitcoin node selects transactions from the memory pool.”
+
+&gt; “Now that a candidate block has been constructed by Jing’s node, it is time for Jing’s hardware mining rig to “mine” the block, to find a solution to the Proof-of-Work algorithm that makes the block valid.”
+
+
+---
+
+
+# Antonopoulos
+
+* Miners
+
+&gt; “In the simplest terms, mining is the process of hashing the block header repeatedly, changing one parameter, until the resulting hash matches a specific target. The hash function’s result cannot be determined in advance, nor can a pattern be created that will produce a specific hash value. This feature of hash functions means that the only way to produce a hash result matching a specific target, is to try again and again, randomly modifying the input until the desired hash result appears by chance.”
+
+
+---
+
+
+# Antonopoulos
+
+* Miners
+
+&gt; “Immediately, Jing’s mining node transmits the block to all its peers. They receive, validate and then propagate the new block. As the block ripples out across the network, each node adds it to its own copy of the blockchain, extending it to a new height of 277,316 blocks. As mining nodes receive and validate the block, they abandon their efforts to find a block at the same height and immediately start computing the next block in the chain.”
+
+
+&gt; “The [next] step in bitcoin’s consensus mechanism is independent validation of each new block by every node on the network. As the newly solved block moves across the net‐ work, each node performs a series of tests to validate it before propagating it to its peers.”
+
+---
+
+
+# Antonopoulos
+
+* Miners
+
+
+&gt; “The final step in bitcoin’s de-centralized consensus mechanism is the assembly of blocks into chains and the selection of the chain with the most Proof-of-Work. Once a node has validated a new block, it will then attempt to assemble a chain, by connecting the block to the existing blockchain.”
+
+---
+
+
+# Antonopoulos
+
+* Miners
+
+&gt; “Nodes maintain three sets of blocks: those connected to the main blockchain, those that form branches off the main blockchain (secondary chains) and finally blocks that do not have a known parent in the known chains (orphans). Invalid blocks are rejected as soon as any one of the validation criteria fails and are therefore not included in any chain.”
+
+
+&gt; “When a new block is received, a node will try to slot it into the existing blockchain. . . the node will attempt to find that parent in the existing blockchain.”
+
+---
+
+
+# Antonopoulos
+
+* Miners
+
+&gt; “Sometimes, . . the new block extends a chain that is not the main chain. In that case, the node will attach the new block to the secondary chain it extends and then compare the difficulty of the secondary chain to the main chain.”
+
+&gt; “If a valid block is received and no parent is found in the existing chains, then that block is considered an “orphan”. Orphan blocks are saved in the orphan block pool where they will stay until their parent is received.”
+
+---
+
+
+# Antonopoulos
+
+* Keys, addresses, wallets
+
+&gt; “Ownership of bitcoin is established through digital keys, bitcoin addresses and digital signatures. The digital keys are not actually stored in the network, but are instead created and stored by end-users in a file, or simple database, called a wallet. The digital keys in a user’s wallet are completely independent of the bitcoin protocol and can be generated and managed by the user’s wallet software without reference to the blockchain or access to the Internet.”
+
+
+
+
+---
+
+
+
+# Antonopoulos
+
+* Keys, addresses, wallets
+
+&gt; “Every bitcoin transaction requires a valid signature to be included in the blockchain, which can only be generated with valid digital keys, therefore anyone with a copy of those keys has control of the bitcoin in that account. Keys come in pairs consisting of a private (secret) and public key. Think of the public key as similar to a bank account number and the private key as similar to the secret PIN number, or signature on a cheque that provides control over the account.”
+
+---
+
+
+# Antonopoulos
+
+* Keys, addresses, wallets
+
+&gt; “In the payment portion of a bitcoin transaction, the recipient’s public key is represented by its digital fingerprint, called a bitcoin address, which is used in the same way as the beneficiary name on a cheque (i.e. “Pay to the order of ”). In most cases, a bitcoin address is generated from and corresponds to a public key. [However, not all bitcoin addresses represent public keys; they can also represent other beneficiaries such as scripts, . .] ”
+---
+
+# Savjee
+
+&gt; “A blockchain is a distributed ledger that is completely open to anyone. A block contains some data, the hash of the block and the hash of the previous block.  The data stored inside a block depends on the type of blockchain.  The Bitcoin blockchain stores the details about a transaction, such as the sender, receiver and amount of coins.  A block also has a hash.  Once a block is created, it’s hash is being calculated.  The third element is the hash of the previous block.”
+
+&gt; “The first block is special because it cannot point to previous blocks. It is called the genesis block.”
+
+---
+
+# Savjee
+
+&gt; “When someone creates a new block, that new block is send to everyone on the network.  Each node then verifies the block to make sure that it hasn't been tampered with.  If everything checks out, each node adds this block to their own blockchain.  All the nodes in this network create consensus.  They agree about what blocks are valid and which aren't.”
+
+---
+
+# Thomas Goger, First Public Prosecutor
+
+* Challenges for investigation
+
+    + lack of willingness of victims to file a complaint with law enforcement agencies
+
+    + almost always international dimension of cybercrime activity
+
+    + volatility of digital leads and evidence
+
+    + fast pace of technological developments
+
+    + lagging behind of written and case law
+
+    + technical complexity
+
+    + need of specialized knowledge within public prosecutors‘ offices
+
+    + massive amounts of data to be evaluated
+
+    + lack of data retention in many countries
+
+    + encryption
+
+
+---
+
+
+# FBI special agent Joseph Battaglia
+
+&gt; “The key . . . is collaboration between a few key public and private organizations and some 'outside the box' thinking.”
+
+&gt; “. . . a single user opening his or her computer and discovering they’ve received an email informing them their files have been locked with “military grade encryption” and won’t be released unless they pay a ransom.”
+
+&gt; “. . . if the victim decides not to pay . . . I can take the ransom note and plug it into IC3 (FBI’s Internet Crime Complaint Center). . . compare the ransom demand with those on file at IC3 to look for connections. In similar cases with similar demands, some victims may have decided to pay the ransom, resulting in possibly helpful data for the cases in which the ransom was not paid.”
+
+---
+
+# FBI special agent Joseph Battaglia
+
+&gt; “Addresses from victims who did pay are then processed by the FBI’s “blockchain tool” to generate a list of wallets associated with the same “entity” that issued the ransom demand. From the initial pool of addresses that paid, the FBI then searches for connections between the recipient wallet and its expenditures.”
+
+
+&gt; “. . . looking for cases being worked by other agents who have gathered additional identifiable information.”
+
+
+&gt; “For example, this could be an FBI agent who is working with a “cooperator on a darknet marketplace” and who knows that the funds associated with the addresses are also associated with someone selling extremely popular remote desktop protocol (RDP) credentials for accessing third-party computers from anywhere in the world.”
+
+---
+
+# FBI special agent Joseph Battaglia
+
+&gt; “. . . likely start looking for connections across time, such as a monthly payment made from one of the suspicious bitcoin addresses to a bitcoin exchange in the US, on which he could serve a subpoena to learn what the transactions have been paying for.”
+
+&gt; “Once the payment recipient is identified, the investigator will have an IP address of a virtual server with a name and address “that’s probably fake. . . ””
+
+&gt; “At that point, the investigation gets old school.”
+
+&gt; “. . . next implement “traditional” investigative techniques, like cross-referencing the addresses on an IP registry, such as the American Registry for Internet Numbers (ARIN) or the Global IP Address Database, to try to identify which connections are being made to the server.”
+
+&gt; “But all that is for naught if the perpetrator has successfully logged into an identity-protecting virtual private network, or VPN.”
+
+---
+
+# FBI special agent Joseph Battaglia
+
+&gt; “But people get sloppy . . .”
+
+&gt; “Evidence of a ransomer who has stopped paying attention to details could include them connecting to the Internet via public Wi-Fi hotspots, relying on the large volume of people at the location to provide a smoke screen to obscure their identity.”
+
+&gt; “But it is at the intersection between high-tech tools and old-fashioned investigation . . .”
+
+---
+
+# There is no perfect crime?
+
+* [Five stupid things Dread Pirate Roberts did to get arrested](http://bit.ly/2osBjAF)
+
+    + He boasted about running his international multimillion dollar drugs marketplace on his LinkedIn profile
+
+    + He used a real photograph of himself for a fake ID to rent servers to run his international multimillion dollar drugs marketplace
+
+    + He asked for advice on coding the secret website for his international multimillion dollar drugs marketplace using his real name
+
+    + He sought contacts in courier firms, presumably to work out how to best ship things from his international multimillion dollar drugs marketplace, on Google+, where his real name, real face and real YouTube profile were visible
+
+    + He allegedly paid $80,000 to kill a former employee of his international multimillion dollar drugs marketplace to a man who turned out to be an undercover cop
+
+---
+
+# There is no perfect crime?
+
+* Read “The Untold Story of Silk Road” by Joshuan Bearman:
+
+    + [Part I](http://bit.ly/2atZpjE)
+
+    + [Part II](http://bit.ly/2osABUh)
+
+---
+
+# After locating the suspects
+
+* Michael Doran. [A Forensic Look at Bitcoin Cryptocurrency](http://bit.ly/2r0R3sZ), SANS Institute, 21 October 2015.
+
+&gt; “Since Bitcoin transactions occur via a network connection, an investigator should seize any physical object that can connect to the Internet. These objects include cell phones, PDAs, laptops, tablets, desktop computers, or iPods. If during the Identification and Preservation phases it is determined that, the suspect’s computer is on, it is imperative that the investigator capture the system’s physical memory (RAM). Many types of evidence may be available in volatile memory relating to Bitcoin.”
+
+* See section 8 of Michael Doran for "Collection and analysis of evidence".
+
+---
+
+
+# Financial Times
+
+* Summary
+
+&lt;img src="images-bitcoin/FT-1.png" height="450pt" /&gt;
+    </textarea>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
